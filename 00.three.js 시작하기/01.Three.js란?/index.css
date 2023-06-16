@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* 링크 컨테이너를 가운데 정렬하는 스타일 */
+.link-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 세로 전체 높이를 차지하도록 설정 */
+}
+
+/* 링크 스타일링 */
+.link-container a {
+    color: #6667ab;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'TheJamsil5Bold', sans-serif;
+    font-size: 50px;
+}
