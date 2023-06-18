@@ -14,7 +14,7 @@ export default function example() {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog('lime', 3, 7);
+    scene.fog = new THREE.Fog('yellow', 7, 15);
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -36,7 +36,7 @@ export default function example() {
     // Mesh
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshStandardMaterial({
-        color: '#6667ab'
+        color: 'skyblue'
     });
 
     const meshes = [];
