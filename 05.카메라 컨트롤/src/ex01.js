@@ -37,7 +37,9 @@ export default function example() {
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
-	controls.enableDamping = true; // 컨트롤 가속 최적화해서 부드러운 움직임을 보여줄 수 있게 해준다.
+	controls.maxDistance = 20;
+	controls.minDistance = 5;
+	controls.target.set(3,3,3);
 
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
