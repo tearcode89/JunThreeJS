@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-
+import {OrbitControls} from "three/addons/controls/OrbitControls";
 // ----- 주제: OrbitControls
 
 export default function example() {
@@ -36,20 +36,35 @@ export default function example() {
 	scene.add(directionalLight);
 
 	// Controls
+	const controls = new OrbitControls(camera, renderer.domElement);
+	controls.enableDamping = true; // 컨트롤 가속 최적화해서 부드러운 움직임을 보여줄 수 있게 해준다.
 
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshStandardMaterial({
-		color: 'seagreen'
-	});
-	const mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
+	let mesh;
+	let material;
+	for (let i = 0; i < 20; i++) {
+		material = new THREE.MeshStandardMaterial({
+			color: `rgb(
+				${ 50 + Math.floor(Math.random() * 205) },
+				${ 50 + Math.floor(Math.random() * 205) },
+				${ 50 + Math.floor(Math.random() * 205) }
+			)`
+		});
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = (Math.random() - 0.5) * 5;
+		mesh.position.y = (Math.random() - 0.5) * 5;
+		mesh.position.z = (Math.random() - 0.5) * 5;
+		scene.add(mesh);
+	}
 
 	// 그리기
 	const clock = new THREE.Clock();
 
 	function draw() {
 		const delta = clock.getDelta();
+
+		controls.update();
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
