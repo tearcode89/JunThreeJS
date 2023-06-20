@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/addons/controls/OrbitControls";
 
-// ----- 주제: Geometry 기본
+// ----- 주제: Geometry 정점(Vertex) position 이용하기
 
 export default function example() {
 	// Renderer
@@ -23,7 +23,7 @@ export default function example() {
 		0.1,
 		1000
 	);
-	camera.position.z = 4;
+	camera.position.z = 10;
 	scene.add(camera);
 
 	// Light
@@ -39,14 +39,16 @@ export default function example() {
 	const controls = new OrbitControls(camera, renderer.domElement);
 
 	// Mesh
-	const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // 세그먼트는 얼마나 단위를 쪼갤건지..
+	const geometry = new THREE.SphereGeometry(5, 64, 64);
 	const material = new THREE.MeshStandardMaterial({
-		color: 'hotpink',
+		color: 'orangered',
 		side: THREE.DoubleSide,
-		wireframe: true,
-	});
+		flatShading: true,
+	})
 	const mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
+	scene.add(mesh)
+
+	console.log(geometry)
 
 	// 그리기
 	const clock = new THREE.Clock();
