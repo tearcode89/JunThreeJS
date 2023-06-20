@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
+import {TrackballControls} from "three/addons/controls/TrackballControls";
+import {FlyControls} from "three/addons/controls/FlyControls";
 // ----- 주제: OrbitControls
 
 export default function example() {
@@ -36,10 +38,10 @@ export default function example() {
 	scene.add(directionalLight);
 
 	// Controls
-	const controls = new OrbitControls(camera, renderer.domElement);
-	controls.maxDistance = 20;
-	controls.minDistance = 5;
-	controls.target.set(3,3,3);
+	const controls = new FlyControls(camera, renderer.domElement);
+	controls.rollSpeed = 0.5
+	// controls.movementSpeed = 3;
+	controls.dragToLook = true;
 
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -66,7 +68,7 @@ export default function example() {
 	function draw() {
 		const delta = clock.getDelta();
 
-		controls.update();
+		controls.update(delta);
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
