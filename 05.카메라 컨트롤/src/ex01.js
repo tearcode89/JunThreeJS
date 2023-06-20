@@ -3,7 +3,8 @@ import {OrbitControls} from "three/addons/controls/OrbitControls";
 import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
 import {FirstPersonControls} from "three/addons/controls/FirstPersonControls";
-// ----- 주제: OrbitControls
+import {PointerLockControls} from "three/addons/controls/PointerLockControls";
+// ----- 주제: PointerLockControls
 
 export default function example() {
 	// Renderer
@@ -39,12 +40,23 @@ export default function example() {
 	scene.add(directionalLight);
 
 	// Controls
-	const controls = new FirstPersonControls(camera, renderer.domElement);
+	const controls = new PointerLockControls(camera, renderer.domElement);
 	// controls.rollSpeed = 0.5
 	// controls.movementSpeed = 3;
 	// controls.dragToLook = true;
-	controls.lookSpeed = 0.1;
-	controls.autoForward = true;
+	// controls.lookSpeed = 0.1;
+	// controls.autoForward = true;
+	// console.log(controls.domElement === renderer.domElement);
+	controls.domElement.addEventListener('click', () => {
+		controls.lock()});
+
+	controls.addEventListener('lock', ()=> {
+		alert('unlock이 동작했습니다.')
+	})
+
+	controls.addEventListener(('unlock'), () => {
+		console.log('lock이 동작했습니다.');
+	})
 
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -71,7 +83,7 @@ export default function example() {
 	function draw() {
 		const delta = clock.getDelta();
 
-		controls.update(delta);
+		// controls.update(delta); PointerLockControls 카메라에서는 업데이트문을 해주지 않는다.
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
