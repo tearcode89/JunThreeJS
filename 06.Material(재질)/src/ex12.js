@@ -1,9 +1,27 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// ----- 주제: MeshBasicMaterial
+// ----- 주제: MeshMatcapMaterial
 
 export default function example() {
+	// 텍스쳐 이미지 로드
+	const loadingManager = new THREE.LoadingManager();
+	loadingManager.onStart = () => {
+		console.log('로드 시작');
+	};
+	loadingManager.onProgress = img => {
+		console.log(img + ' 로드');
+	};
+	loadingManager.onLoad = () => {
+		console.log('로드 완료');
+	};
+	loadingManager.onError = () => {
+		console.log('에러');
+	};
+
+	const textureLoader = new THREE.TextureLoader(loadingManager);
+	const matcapTex = textureLoader.load('/textures/matcap/Copper_1.png');
+
 	// Renderer
 	const canvas = document.querySelector('#three-canvas');
 	const renderer = new THREE.WebGLRenderer({
@@ -15,6 +33,7 @@ export default function example() {
 
 	// Scene
 	const scene = new THREE.Scene();
+	// scene.background = new THREE.Color('white');
 
 	// Camera
 	const camera = new THREE.PerspectiveCamera(
@@ -28,15 +47,19 @@ export default function example() {
 	scene.add(camera);
 
 	// Light
-	// MeshBasicMaterial은 조명이 필요 없다
+	const ambientLight = new THREE.AmbientLight('white', 0.5);
+	const directionalLight = new THREE.DirectionalLight('white', 1);
+	directionalLight.position.set(1, 1, 2);
+	scene.add(ambientLight, directionalLight);
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 
 	// Mesh
-	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshBasicMaterial({
-		color: 'orange'
+	// const geometry = new THREE.BoxGeometry(2, 2, 2);
+	const geometry = new THREE.ConeGeometry(1, 2, 64);
+	const material = new THREE.MeshMatcapMaterial({
+		matcap: matcapTex
 	});
 	const mesh = new THREE.Mesh(geometry, material);
 	scene.add(mesh);

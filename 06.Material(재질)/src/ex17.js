@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// ----- 주제: MeshBasicMaterial
+// ----- 주제: CanvasTexture
 
 export default function example() {
 	// Renderer
@@ -33,10 +33,17 @@ export default function example() {
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 
+	// CanvasTexture
+	const texCanvas = document.createElement('canvas');
+	const texContext = texCanvas.getContext('2d');
+	texCanvas.width = 500;
+	texCanvas.height = 500;
+	const canvasTexture = new THREE.CanvasTexture(texCanvas);
+
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
 	const material = new THREE.MeshBasicMaterial({
-		color: 'orange'
+		map: canvasTexture
 	});
 	const mesh = new THREE.Mesh(geometry, material);
 	scene.add(mesh);
@@ -45,7 +52,16 @@ export default function example() {
 	const clock = new THREE.Clock();
 
 	function draw() {
-		const delta = clock.getDelta();
+		const time = clock.getElapsedTime();
+
+		material.map.needsUpdate = true;
+
+		texContext.fillStyle = 'green';
+		texContext.fillRect(0, 0, 500, 500);
+		texContext.fillStyle = 'white';
+		texContext.fillRect(time * 50, 100, 50, 50);
+		texContext.font = 'bold 50px sans-serif';
+		texContext.fillText('1분코딩', 200, 200);
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);

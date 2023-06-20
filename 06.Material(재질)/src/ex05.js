@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// ----- 주제: MeshBasicMaterial
+// ----- 주제: side
 
 export default function example() {
 	// Renderer
@@ -15,6 +15,7 @@ export default function example() {
 
 	// Scene
 	const scene = new THREE.Scene();
+	scene.background = new THREE.Color('white');
 
 	// Camera
 	const camera = new THREE.PerspectiveCamera(
@@ -28,15 +29,23 @@ export default function example() {
 	scene.add(camera);
 
 	// Light
-	// MeshBasicMaterial은 조명이 필요 없다
+	const ambientLight = new THREE.AmbientLight('white', 0.5);
+	const directionalLight = new THREE.DirectionalLight('white', 1);
+	directionalLight.position.set(1, 1, 2);
+	scene.add(ambientLight, directionalLight);
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 
 	// Mesh
-	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshBasicMaterial({
-		color: 'orange'
+	const geometry = new THREE.BoxGeometry(2, 2, 2);
+	const material = new THREE.MeshStandardMaterial({
+		color: 'orangered',
+		roughness: 0.2,
+		metalness: 0.3,
+		// side: THREE.FrontSide
+		// side: THREE.BackSide
+		side: THREE.DoubleSide
 	});
 	const mesh = new THREE.Mesh(geometry, material);
 	scene.add(mesh);

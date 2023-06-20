@@ -1,9 +1,25 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// ----- 주제: MeshBasicMaterial
+// ----- 주제: 텍스쳐 이미지 로드하기
 
 export default function example() {
+	// 텍스쳐 이미지 로드
+	const textureLoader = new THREE.TextureLoader();
+	// const texture = textureLoader.load('/textures/brick/Brick_Wall_019_basecolor.jpg');
+	const texture = textureLoader.load(
+		'/textures/brick/Brick_Wall_019_basecolor.jpg',
+		() => {
+			console.log('로드 완료');
+		},
+		() => {
+			console.log('로드 중');
+		},
+		() => {
+			console.log('로드 에러');
+		},
+	);
+
 	// Renderer
 	const canvas = document.querySelector('#three-canvas');
 	const renderer = new THREE.WebGLRenderer({
@@ -15,6 +31,7 @@ export default function example() {
 
 	// Scene
 	const scene = new THREE.Scene();
+	scene.background = new THREE.Color('white');
 
 	// Camera
 	const camera = new THREE.PerspectiveCamera(
@@ -28,15 +45,20 @@ export default function example() {
 	scene.add(camera);
 
 	// Light
-	// MeshBasicMaterial은 조명이 필요 없다
+	const ambientLight = new THREE.AmbientLight('white', 0.5);
+	const directionalLight = new THREE.DirectionalLight('white', 1);
+	directionalLight.position.set(1, 1, 2);
+	scene.add(ambientLight, directionalLight);
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 
 	// Mesh
-	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshBasicMaterial({
-		color: 'orange'
+	const geometry = new THREE.BoxGeometry(2, 2, 2);
+	// const material = new THREE.MeshBasicMaterial({
+	const material = new THREE.MeshStandardMaterial({
+		// color: 'orangered',
+		map: texture
 	});
 	const mesh = new THREE.Mesh(geometry, material);
 	scene.add(mesh);
