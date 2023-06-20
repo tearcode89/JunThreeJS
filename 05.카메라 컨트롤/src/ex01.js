@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from "three/addons/controls/OrbitControls";
 import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
+import {FirstPersonControls} from "three/addons/controls/FirstPersonControls";
 // ----- 주제: OrbitControls
 
 export default function example() {
@@ -38,10 +39,12 @@ export default function example() {
 	scene.add(directionalLight);
 
 	// Controls
-	const controls = new FlyControls(camera, renderer.domElement);
-	controls.rollSpeed = 0.5
+	const controls = new FirstPersonControls(camera, renderer.domElement);
+	// controls.rollSpeed = 0.5
 	// controls.movementSpeed = 3;
-	controls.dragToLook = true;
+	// controls.dragToLook = true;
+	controls.lookSpeed = 0.1;
+	controls.autoForward = true;
 
 	// Mesh
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
