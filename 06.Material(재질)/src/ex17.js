@@ -61,7 +61,7 @@ export default function example() {
 		texContext.fillStyle = 'white';
 		texContext.fillRect(time * 50, 100, 50, 50);
 		texContext.font = 'bold 50px sans-serif';
-		texContext.fillText('1분코딩', 200, 200);
+		texContext.fillText('😆😆', 200, 200);
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
